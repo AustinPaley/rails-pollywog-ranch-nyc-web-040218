@@ -7,27 +7,26 @@ class TadpolesController < ApplicationController
     @tadpoles = Tadpole.all
   end
 
+  def new
+    set_frog
+    @tadpole = Tadpole.new
+  end
+
   def show
   end
 
-  def new
-    @frog = Frog.find(set_frog)
-    @tadpole = Tadpole.new
+  def metamorphose
+# makes a new frog with the tadpole's name, color, and pond (FAILED - 1)
+# deletes the tadpole from the database (FAILED - 2)
+# redirects to the newly made frog's show page (FAILED - 3)
+    @parent = Frog.find(@tadpole.frog_id)
+    @frog = Frog.create(name: @tadpole.name, color: @tadpole.color, pond_id: @parent.pond_id)
+    @tadpole.destroy
+    redirect_to frog_path(@frog)
   end
 
   def edit
     @frog = @tadpole.frog
-  end
-
-  def create
-    @tadpole = Tadpole.new(tadpole_params)
-    respond_to do |format|
-      if @tadpole.save
-        format.html { redirect_to @tadpole, notice: 'Tadpole was successfully created.' }
-      else
-        format.html { render :new }
-      end
-    end
   end
 
   def update
@@ -47,6 +46,8 @@ class TadpolesController < ApplicationController
     end
   end
 
+
+
   private
     def set_tadpole
       @tadpole = Tadpole.find(params[:id])
@@ -54,6 +55,10 @@ class TadpolesController < ApplicationController
 
     def set_frog
       @frog = Frog.find(params[:frog_id])
+    end
+
+    def frog_params
+      params.require(:frog).permit(:name, :color, :pond_id)
     end
 
     def tadpole_params

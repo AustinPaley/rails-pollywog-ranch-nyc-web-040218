@@ -16,3 +16,11 @@
 <div class="card">
   <img src="http://<%= @tadpole.color %>-tadpole.jpg.to/" alt="Tadpole Picture" width="300">
 </div>
+
+<%= form_tag metamorphose_path do  %>
+
+<%= submit_tag "Become a frog" %>
+<% end %>
+
+<!-- has a button called 'Become a frog' on the tadpole show page (FAILED - 1)
+can click on the button and the tadpole becomes a frog (FAILED - 2) -->
